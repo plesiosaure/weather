@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Poppins|Raleway" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>Weather</title>
+    </head>
+
+
+    <body>
+
+       
+        
+        <div class="container">
+
+            <div class="row">
+
+                 
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h1>Meteo</h1>
+
+                    <p class="lead">Weather forecast for your city</p>
+
+
+                    <form id="contact-form" method="post" action="" role="form">
+                        <div class="controls">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_city">City *</label>
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <input id="form_city" type="text" name="city" class="form-control" placeholder="Please enter your city" required="required" >
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <input type="submit" value="OK" class="btn btn-success btn-send">
+                                            </div>
+                                        </div>
+                                        * courtesy of <a href="http://openweathermap.org/api">OpenWeatherMap</a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                           
+                        </div>
+
+                    </form>
+
+                </div><!-- /.8 -->
+
+            </div> <!-- /.row-->
+
+        </div> <!-- /.container-->
+
+       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+          <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(function() {
+            
+            $('#contact-form').on('submit', function() {
+                console.log($('form-city').val());
+                req = new XMLHttpRequest();
+                req.onreadystatechange = function(event) {
+                // XMLHttpRequest.DONE === 4
+                    if (this.readyState === XMLHttpRequest.DONE) {
+                        if (this.status === 200) {
+                            console.log("Réponse reçu: %s", this.responseText);
+                        } else {
+                            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+                        }
+                    }
+                };
+                req.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ $('form-city').val(), true);
+                req.send(null);
+           });
+             
+        });
+    </script><!-- <script src="script.js"></script> -->
+</body>
