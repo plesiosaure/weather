@@ -35,7 +35,7 @@
                                         <label for="form_city">City *</label>
                                         <div class="row">
                                             <div class="col-xs-10">
-                                                <input id="form_city" type="text" name="city" class="form-control" placeholder="Please enter your city" required="required" >
+                                                <input id="form_city" type="text" name="city" class="form-control" placeholder="Please enter your city" required="required" value="paris" >
                                             </div>
                                             <div class="col-xs-2">
                                                 <input type="submit" value="OK" class="btn btn-success btn-send">
@@ -54,6 +54,16 @@
                 </div><!-- /.8 -->
 
             </div> <!-- /.row-->
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                <div id="meteo">
+                    <h2></h2>
+                    <span> </span> <img id="icon">
+                    
+
+                </div>
+                 </div>
+            </div>
 
         </div> <!-- /.container-->
 
@@ -73,14 +83,20 @@
                     if (this.readyState === XMLHttpRequest.DONE) {
                         if (this.status === 200) {
                             console.log("Réponse reçue: %s", this.responseText);
-                            document.getElementById('meteo').getElementsByTagName('H2')[0].innerText = 'Meteo of ' + city;
-                            document.getElementById('meteo').getElementsByTagName('P')[0].innerText = JSON.stringify(this.responseText);//this.responseText;
+                            document.getElementById('meteo').getElementsByTagName('H2')[0].innerText = 'Weather in ' + city ;
+                            let meteo = JSON.parse(this.responseText);
+                            let temperature = Math.round(meteo.main.temp);
+                            let icon = JSON.stringify(meteo.weather[0].icon);
+                            icon = icon.replace("\"","");
+                            icon = icon.replace("\"","");
+                            document.getElementById('icon').setAttribute('src', 'http://openweathermap.org/img/w/' + icon + '.png')
+                            document.getElementById('meteo').getElementsByTagName('span')[0].innerText = temperature +'°';//this.responseText;
                         } else {
                             console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
                         }
                     }
                 };
-                req.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ city + '&APPID=44d86f7653820153047eaddb2d26c142', true);
+                req.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ city + '&lang=fr&units=metric&APPID=44d86f7653820153047eaddb2d26c142', true);
                 req.send(null);
                 return false;
         });
@@ -90,10 +106,5 @@
         
     </script><!-- <script src="script.js"></script> -->
     
-    <div id="meteo">
-        <h2></h2>
-        <p>         </p>
-
-   
-    </div>
+    
 </body>
