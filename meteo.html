@@ -63,24 +63,37 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         $(function() {
-            
             $('#contact-form').on('submit', function() {
-                console.log($('form-city').val());
+               
+                let city = document.getElementById('form_city').value;
+                console.log(city);
                 req = new XMLHttpRequest();
                 req.onreadystatechange = function(event) {
                 // XMLHttpRequest.DONE === 4
                     if (this.readyState === XMLHttpRequest.DONE) {
                         if (this.status === 200) {
-                            console.log("Réponse reçu: %s", this.responseText);
+                            console.log("Réponse reçue: %s", this.responseText);
+                            document.getElementById('meteo').getElementsByTagName('H2')[0].innerText = 'Meteo of ' + city;
+                            document.getElementById('meteo').getElementsByTagName('P')[0].innerText = JSON.stringify(this.responseText);//this.responseText;
                         } else {
-                            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+                            console.log("Statut de la réponse: %d (%s)", this.status, this.statusText);
                         }
                     }
                 };
-                req.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ $('form-city').val(), true);
+                req.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ city + '&APPID=44d86f7653820153047eaddb2d26c142', true);
                 req.send(null);
-           });
+                return false;
+        });
              
         });
+        
+        
     </script><!-- <script src="script.js"></script> -->
+    
+    <div id="meteo">
+        <h2></h2>
+        <p>         </p>
+
+   
+    </div>
 </body>
