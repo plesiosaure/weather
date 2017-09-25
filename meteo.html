@@ -72,8 +72,16 @@
           <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-        $(function() {
-            $('#contact-form').on('submit', function() {
+                /* If IE8 compatibility is not required : 
+         * 
+         *  document.addEventListener("DOMContentLoaded", function() {
+         *     // code...
+         *   });
+         */
+// alternative to DOMContentLoaded
+document.onreadystatechange = function () {
+    if (document.readyState == "interactive") {
+        document.getElementById('contact-form').onsubmit =  function() {
                
                 let city = document.getElementById('form_city').value;
                 console.log(city);
@@ -99,10 +107,14 @@
                 req.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ city + '&lang=fr&units=metric&APPID=44d86f7653820153047eaddb2d26c142', true);
                 req.send(null);
                 return false;
-        });
-             
-        });
-        
+
+        };
+    }
+ };
+
+               
+               
+
         
     </script><!-- <script src="script.js"></script> -->
     
